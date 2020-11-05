@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Eastwood ATM</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+
+        <h1>Eastwood ATM</h1>
+
+        <div id="view-btn">
+            <p>What would you like to do?</p>
+            <input type="button" id="create-btn" value="Create Account">
+            <input type="button" id="access-btn" value="Access Account">
+        </div>
+
+        <div class="view" id="create-view">
+            <h2>Create Account</h2>
+            <p>Please enter the name of the account holder and the desired PIN. <em>(PIN cannot start with a 0)</em></p>
+            <label for="create-name">Name: </label>
+            <input type="text" id="create-name">
+            <label for="create-pin">PIN: </label>
+            <input type="text" id="create-pin">
+            <input type="button" id="create-submit" value="Create Account">
+            <p id="create-output"></p>
+            <input type="button" class="return-button" value="Main Menu">
+        </div>
+        <div class="view" id="access-view">
+            <h2>Access Account</h2>
+            <p>Please enter the name of the account holder and the associated PIN.</p>
+            <label for="access-name">Name: </label>
+            <input type="text" id="access-name">
+            <label for="access-pin">PIN: </label>
+            <input type="text" id="access-pin">
+            <input type="button" id="access-submit" value="Access Account">
+            <p id="access-output"></p>
+            <input type="button" class="return-button" value="Main Menu">
+        </div>
+        <div class="view" id="auth-view">
+            <h2>Your Account</h2>
+            <p id="auth-welcome"></p>
+            <label for="auth-amount">Amount to withdraw/deposit: </label>
+            <input type="text" id="auth-amount">
+            <input type="button" id="auth-withdraw" value="Withdraw">
+            <input type="button" id="auth-deposit" value="Deposit">
+            <p id="auth-output"></p>
+            <h3>Change PIN</h3>
+            <label for="auth-pin">New PIN: </label>
+            <input type="text" id="change-pin">
+            <input type="button" id="change-submit" value="Change PIN">
+            <br>
+            <br>
+            <input type="button" class="return-button" value="Main Menu">
+        </div>
+
+        <script src="atm.js"></script>
+    </body>
+</html>
