@@ -16,31 +16,6 @@ function Account(name, pin){
     this.name = name;
     this.pin = Number(pin);
     this.balance = 0;
-
-    //methods
-    // this.withdraw = function(amount){
-    //     amount = Number(amount);
-    //     this.balance -= amount;
-    //     alert('Withdrew ' + amount + '. New balance is ' + this.balance);
-    // };
-    // this.deposit = function(amount){
-    //     amount = Number(amount);
-    //     this.balance += amount;
-    //     alert('Deposited ' + amount + '. New balance is ' + this.balance);
-    // }
-    // this.changePin = function(){
-    //     let newPin = Number(prompt('Please enter your new desired PIN: ',''));
-    //     this.pin = newPin;
-    //     alert('PIN has been successfully updated to ' + this.pin);
-    // }
-
-    // this.view = function(){
-    //     let returnResult;
-    //     for (let prop in this){
-    //         returnResult += prop + ': ' + this[prop] + '\n';
-    //     }
-    //     return returnResult;
-    // }
 }
 
 //click handlers for switching views
