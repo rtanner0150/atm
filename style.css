@@ -1,1 +1,5 @@
 .view{display:none;}
+.menu #view-btn{display:block;}
+.create #create-view{display:block;}
+.access #access-view{display:block;}
+.auth #auth-view{display:block;}

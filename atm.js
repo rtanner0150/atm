@@ -18,39 +18,37 @@ function Account(name, pin){
     this.balance = 0;
 
     //methods
-    this.withdraw = function(amount){
-        amount = Number(amount);
-        this.balance -= amount;
-        alert('Withdrew ' + amount + '. New balance is ' + this.balance);
-    };
-    this.deposit = function(amount){
-        amount = Number(amount);
-        this.balance += amount;
-        alert('Deposited ' + amount + '. New balance is ' + this.balance);
-    }
-    this.changePin = function(){
-        let newPin = Number(prompt('Please enter your new desired PIN: ',''));
-        this.pin = newPin;
-        alert('PIN has been successfully updated to ' + this.pin);
-    }
+    // this.withdraw = function(amount){
+    //     amount = Number(amount);
+    //     this.balance -= amount;
+    //     alert('Withdrew ' + amount + '. New balance is ' + this.balance);
+    // };
+    // this.deposit = function(amount){
+    //     amount = Number(amount);
+    //     this.balance += amount;
+    //     alert('Deposited ' + amount + '. New balance is ' + this.balance);
+    // }
+    // this.changePin = function(){
+    //     let newPin = Number(prompt('Please enter your new desired PIN: ',''));
+    //     this.pin = newPin;
+    //     alert('PIN has been successfully updated to ' + this.pin);
+    // }
 
-    this.view = function(){
-        let returnResult;
-        for (let prop in this){
-            returnResult += prop + ': ' + this[prop] + '\n';
-        }
-        return returnResult;
-    }
+    // this.view = function(){
+    //     let returnResult;
+    //     for (let prop in this){
+    //         returnResult += prop + ': ' + this[prop] + '\n';
+    //     }
+    //     return returnResult;
+    // }
 }
 
 //click handlers for switching views
 document.getElementById('create-btn').addEventListener('click',function(){
-    document.getElementById('create-view').style.display = 'block';
-    document.getElementById('view-btn').style.display = 'none';
+    document.querySelector('body').className = 'create';
 });
 document.getElementById('access-btn').addEventListener('click',function(){
-    document.getElementById('access-view').style.display = 'block';
-    document.getElementById('view-btn').style.display = 'none';
+    document.querySelector('body').className = 'access';
 });
 
 //click handlers for main menu buttons
@@ -63,10 +61,7 @@ for (let i = 0; i < buttons.length; i++){
         document.getElementById('access-pin').value = '';
         document.getElementById('auth-amount').value = '';
         document.getElementById('change-pin').value = '';
-        document.getElementById('create-view').style.display = 'none';
-        document.getElementById('access-view').style.display = 'none';
-        document.getElementById('auth-view').style.display = 'none';
-        document.getElementById('view-btn').style.display = 'block';
+        document.querySelector('body').className = 'menu';
     });
 }
 
@@ -90,6 +85,11 @@ document.getElementById('create-submit').addEventListener('click', function(){
     accounts.push(account);
     //update array in local storage
     localStorage["accounts"] = JSON.stringify(accounts);
+    //set currentAccountIndex
+    currentAccountIndex = accounts.length - 1;
+    document.querySelector('body').className = 'auth';
+    document.getElementById('auth-welcome').innerHTML = 'Welcome, ' + accounts[currentAccountIndex].name + '! Your current balance is: ' + 
+        accounts[currentAccountIndex].balance + '<br>' + 'What would you like to do?';
 });
 
 //on click of access-submit, attempt to access existing account
@@ -102,8 +102,7 @@ document.getElementById('access-submit').addEventListener('click', function(){
         if (accounts[index].name === name && accounts[index].pin === pin){
             //if name and pin match, access account
             currentAccountIndex = index;
-            document.getElementById('access-view').style.display = 'none';
-            document.getElementById('auth-view').style.display = 'block';
+            document.querySelector('body').className = 'auth';
             document.getElementById('auth-welcome').innerHTML = 'Welcome, ' + accounts[currentAccountIndex].name + '! Your current balance is: ' + 
                 accounts[currentAccountIndex].balance + '<br>' + 'What would you like to do?';
             return;
@@ -126,6 +125,10 @@ document.getElementById('auth-deposit').addEventListener('click', function(){
 
 document.getElementById('auth-withdraw').addEventListener('click', function(){
     let amount = Number(document.getElementById('auth-amount').value);
+    if (accounts[currentAccountIndex].balance < amount){
+        document.getElementById('auth-welcome').innerHTML = 'Withdrawal amount exceeds current balance. Please try again.';
+        return;
+    }
     accounts[currentAccountIndex].balance -= amount;
     localStorage["accounts"] = JSON.stringify(accounts);
     document.getElementById('auth-welcome').innerHTML = 'Thank you for the withdrawal. Your updated balance is: ' + accounts[currentAccountIndex].balance;
