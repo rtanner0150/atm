@@ -18,6 +18,18 @@ function Account(name, pin){
     this.balance = 0;
 }
 
+function showDelete(){
+    if (accounts[currentAccountIndex].balance == 0){
+        document.getElementById('delete-account').style.display = 'block';
+    }
+}
+
+function hideDelete(){
+    if (accounts[currentAccountIndex].balance >= 0){
+        document.getElementById('delete-account').style.display = 'none';
+    }
+}
+
 //click handlers for switching views
 document.getElementById('create-btn').addEventListener('click',function(){
     document.querySelector('body').className = 'create';
@@ -30,13 +42,9 @@ document.getElementById('access-btn').addEventListener('click',function(){
 let buttons = document.querySelectorAll('.return-button');
 for (let i = 0; i < buttons.length; i++){
     buttons[i].addEventListener('click', function(){
-        document.getElementById('create-name').value = '';
-        document.getElementById('create-pin').value = '';
-        document.getElementById('access-name').value = '';
-        document.getElementById('access-pin').value = '';
-        document.getElementById('auth-amount').value = '';
-        document.getElementById('change-pin').value = '';
-        document.querySelector('body').className = 'menu';
+        window.location.reload();
+        console.log('reload?');
+        return false;
     });
 }
 
@@ -65,6 +73,7 @@ document.getElementById('create-submit').addEventListener('click', function(){
     document.querySelector('body').className = 'auth';
     document.getElementById('auth-welcome').innerHTML = 'Welcome, ' + accounts[currentAccountIndex].name + '! Your current balance is: ' + 
         accounts[currentAccountIndex].balance + '<br>' + 'What would you like to do?';
+    showDelete();
 });
 
 //on click of access-submit, attempt to access existing account
@@ -80,6 +89,7 @@ document.getElementById('access-submit').addEventListener('click', function(){
             document.querySelector('body').className = 'auth';
             document.getElementById('auth-welcome').innerHTML = 'Welcome, ' + accounts[currentAccountIndex].name + '! Your current balance is: ' + 
                 accounts[currentAccountIndex].balance + '<br>' + 'What would you like to do?';
+            showDelete();
             return;
         } else if (accounts[index].name === name && accounts[index].pin !== pin){
             //if name matches but wrong pin, display message
@@ -96,6 +106,7 @@ document.getElementById('auth-deposit').addEventListener('click', function(){
     accounts[currentAccountIndex].balance += amount;
     localStorage["accounts"] = JSON.stringify(accounts);
     document.getElementById('auth-welcome').innerHTML = 'Thank you for the deposit. Your updated balance is: ' + accounts[currentAccountIndex].balance;
+    hideDelete();
 });
 
 document.getElementById('auth-withdraw').addEventListener('click', function(){
@@ -107,6 +118,7 @@ document.getElementById('auth-withdraw').addEventListener('click', function(){
     accounts[currentAccountIndex].balance -= amount;
     localStorage["accounts"] = JSON.stringify(accounts);
     document.getElementById('auth-welcome').innerHTML = 'Thank you for the withdrawal. Your updated balance is: ' + accounts[currentAccountIndex].balance;
+    showDelete();
 });
 
 document.getElementById('change-submit').addEventListener('click', function(){
@@ -115,3 +127,10 @@ document.getElementById('change-submit').addEventListener('click', function(){
     localStorage["accounts"] = JSON.stringify(accounts);
     document.getElementById('auth-welcome').innerHTML = 'PIN has been updated. Your current balance is: ' + accounts[currentAccountIndex].balance;
 });
+
+document.getElementById('delete-account').addEventListener('click', function(){
+    document.querySelector('body').className = 'menu';
+    document.getElementById('menu-text').prepend('Your account has been deleted. ');
+    accounts.splice(currentAccountIndex, 1);
+    localStorage['accounts'] = JSON.stringify(accounts);
+})
