@@ -1,5 +1,17 @@
+/* styling necessary for functionality */
 .view{display:none;}
 .menu #view-btn{display:block;}
 .create #create-view{display:block;}
 .access #access-view{display:block;}
 .auth #auth-view{display:block;}
+
+/* general styling */
+body{font-family:'Rajdhani', Arial, Helvetica, sans-serif; font-size:18px; background-color:#222;}
+h1{text-align:center; color:##000;}
+.main{border:5px inset #555; background:#d0d0d0; width:650px; margin:0 auto; text-align: center; padding-left:20px; min-height:310px; position:relative; margin-top:150px;}
+.main .left{width:400px; float:left;}
+.main .right{width:250px; float:left;}
+.main::after{content:''; display:block; clear:both;}
+input{}
+input[type="button"]{display:block; background:#f00; color:#fff; border:none; width:200px; font-family:'Rajdhani', Arial, Helvetica, sans-serif; font-size:20px; margin:10px 0 10px auto;}
+input.return-button{position:absolute; bottom:10px; right:0;}
