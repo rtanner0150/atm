@@ -6,9 +6,10 @@
 .auth #auth-view{display:block;}
 
 /* general styling */
-body{font-family:'Rajdhani', Arial, Helvetica, sans-serif; font-size:18px; background-color:#222;}
+body{font-family:'Rajdhani', Arial, Helvetica, sans-serif; font-size:18px; background-color:#e0e0e0; text-align:center;}
 h1{text-align:center; color:#000;}
-.main{border:5px inset #555; background:#d0d0d0; width:650px; margin:0 auto; text-align: center; padding-left:20px; min-height:310px; position:relative; margin-top:150px;}
+.outer{display:inline-block; margin-top:100px; border:70px solid #222; border-radius:10px; position:relative;}
+.main{border:5px inset #555; background:#d0d0d0; width:650px; margin:0 auto; padding-left:20px; min-height:310px; position:relative;}
 .main .left{width:400px; float:left;}
 .main .right{width:250px; float:left;}
 .main::after{content:''; display:block; clear:both;}
@@ -16,3 +17,4 @@ input{}
 input[type="button"]{display:block; background:#f00; color:#fff; border:none; width:200px; font-family:'Rajdhani', Arial, Helvetica, sans-serif; font-size:20px; text-transform:uppercase; margin:10px 0 10px auto;}
 input.return-button{position:absolute; bottom:10px; right:0;}
 #delete-account{display:none;}
+.graphic{width: 500px; height: 300px; background-color: #222; position: absolute; left: 90px;}
