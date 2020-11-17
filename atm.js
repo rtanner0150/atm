@@ -31,17 +31,21 @@ class Account{
         this.pin = Number(pin);
         this.balance = 0;
     }
+}
 
-    changePin(newPin){
-
-    }
-
-    //change name of associated account
-    changeName(newName){
-        this.name = newName;
-    }
-
-    withdraw(amount){
+//since JSON.parse/stringify strips function properties, add back function properties as expressions
+for (let index in accounts){
+    accounts[index].deposit = function(amount){
+        if (amount % 20 !== 0){
+            return 'Deposit amount must be increment of 20.';
+        }
+        if (amount > 200){
+            return 'Deposit amount cannot exceed $200.';
+        }
+        this.balance += amount;
+        return 'Thank you for the deposit. Your updated balance is: ' + this.balance;
+    };
+    accounts[index].withdraw = function(amount){
         if (amount % 20 !== 0){
             return 'Withdrawal amount must be increment of 20.';
         }
@@ -53,18 +57,13 @@ class Account{
         }
         this.balance -= amount;
         return 'Thank you for the withdrawal. Your updated balance is: ' + this.balance;
-    }
+    };
+    accounts[index].changeName = function(newName){
+        this.name = newName;
+    };
+    accounts[index].changePin = function(newPin){
 
-    deposit(amount){
-        if (amount % 20 !== 0){
-            return 'Deposit amount must be increment of 20.';
-        }
-        if (amount > 200){
-            return 'Deposit amount cannot exceed $200.';
-        }
-        this.balance += amount;
-        return 'Thank you for the deposit. Your updated balance is: ' + this.balance;
-    }
+    };
 }
 
 function showDelete(){
