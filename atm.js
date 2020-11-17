@@ -10,12 +10,61 @@ if (localStorage["accounts"] !== undefined){
     accounts = JSON.parse(localStorage["accounts"]);
 };
 
-//Account constructor, accepts name and pin, sets id and balance automatically
-function Account(name, pin){
-    //properties
-    this.name = name;
-    this.pin = Number(pin);
-    this.balance = 0;
+//set date/time function, calls itself on timeout to continually update
+function setDate(){
+    let now = new Date();
+    let dateContainers = document.querySelectorAll('.date');
+    for (let i = 0; i < dateContainers.length; i++){
+        dateContainers[i].innerHTML = `${now.getMonth()}/${now.getDate()}/${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}`;
+    }
+    // setTimeout(setDate(), 1000);
+}
+setDate();
+setInterval(setDate, 60000);
+
+//Account class definition
+class Account{
+    //Account constructor, accepts name and pin, sets id and balance automatically
+    constructor(name, pin){
+        //properties
+        this.name = name;
+        this.pin = Number(pin);
+        this.balance = 0;
+    }
+
+    changePin(newPin){
+
+    }
+
+    //change name of associated account
+    changeName(newName){
+        this.name = newName;
+    }
+
+    withdraw(amount){
+        if (amount % 20 !== 0){
+            return 'Withdrawal amount must be increment of 20.';
+        }
+        if (amount > 200){
+            return 'Withdrawal amount cannot exceed $200.';
+        }
+        if (amount > this.balance){
+            return 'Withdrawal amount cannot exceed current balance.';
+        }
+        this.balance -= amount;
+        return 'Thank you for the withdrawal. Your updated balance is: ' + this.balance;
+    }
+
+    deposit(amount){
+        if (amount % 20 !== 0){
+            return 'Deposit amount must be increment of 20.';
+        }
+        if (amount > 200){
+            return 'Deposit amount cannot exceed $200.';
+        }
+        this.balance += amount;
+        return 'Thank you for the deposit. Your updated balance is: ' + this.balance;
+    }
 }
 
 function showDelete(){
@@ -103,26 +152,20 @@ document.getElementById('access-submit').addEventListener('click', function(){
 
 document.getElementById('auth-deposit').addEventListener('click', function(){
     let amount = Number(document.getElementById('auth-amount').value);
-    accounts[currentAccountIndex].balance += amount;
+    document.getElementById('auth-welcome').innerHTML = accounts[currentAccountIndex].deposit(amount);
     localStorage["accounts"] = JSON.stringify(accounts);
-    document.getElementById('auth-welcome').innerHTML = 'Thank you for the deposit. Your updated balance is: ' + accounts[currentAccountIndex].balance;
     hideDelete();
 });
 
 document.getElementById('auth-withdraw').addEventListener('click', function(){
     let amount = Number(document.getElementById('auth-amount').value);
-    if (accounts[currentAccountIndex].balance < amount){
-        document.getElementById('auth-welcome').innerHTML = 'Withdrawal amount exceeds current balance. Please try again.';
-        return;
-    }
-    accounts[currentAccountIndex].balance -= amount;
+    document.getElementById('auth-welcome').innerHTML = accounts[currentAccountIndex].withdraw(amount);
     localStorage["accounts"] = JSON.stringify(accounts);
-    document.getElementById('auth-welcome').innerHTML = 'Thank you for the withdrawal. Your updated balance is: ' + accounts[currentAccountIndex].balance;
     showDelete();
 });
 
 document.getElementById('change-submit').addEventListener('click', function(){
-    let newPin = Number(document.getElementById('change-pin').value);
+    let newPin = Number(document.getElementById('change-text').value);
     accounts[currentAccountIndex].pin = newPin;
     localStorage["accounts"] = JSON.stringify(accounts);
     document.getElementById('auth-welcome').innerHTML = 'PIN has been updated. Your current balance is: ' + accounts[currentAccountIndex].balance;
@@ -133,4 +176,22 @@ document.getElementById('delete-account').addEventListener('click', function(){
     document.getElementById('menu-text').prepend('Your account has been deleted. ');
     accounts.splice(currentAccountIndex, 1);
     localStorage['accounts'] = JSON.stringify(accounts);
+});
+
+document.getElementById('name-submit').addEventListener('click', function(){
+    //get name from text
+    let newName = document.getElementById('change-text').value;
+    for (let index in accounts){
+        if (accounts[index].name === newName){
+            //if name already exists, alert and do nothing else
+            document.getElementById('auth-welcome').innerHTML = 'An account already exists under that name.';
+            return;
+        }
+        //if name didn't exist, update account with new name
+        accounts[currentAccountIndex].name = newName;
+        //update array in local storage
+        localStorage["accounts"] = JSON.stringify(accounts);
+        //display confirm text
+        document.getElementById('auth-welcome').innerHTML = 'Account name changed to ' + newName;
+    }
 })

@@ -9,7 +9,7 @@
 body{font-family:'Rajdhani', Arial, Helvetica, sans-serif; font-size:18px; background-color:#e0e0e0; text-align:center;}
 h1{text-align:center; color:#000;}
 .outer{display:inline-block; margin-top:100px; border:70px solid #222; border-radius:10px; position:relative;}
-.main{border:5px inset #555; background:#d0d0d0; width:650px; margin:0 auto; padding-left:20px; min-height:310px; position:relative;}
+.main{border:5px inset #555; background:#d0d0d0; width:650px; margin:0 auto; padding-left:20px; min-height:328px; position:relative;}
 .main .left{width:400px; float:left;}
 .main .right{width:250px; float:left;}
 .main::after{content:''; display:block; clear:both;}

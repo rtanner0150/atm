@@ -10,6 +10,7 @@
             <div class="main">
                 <div class="view" id="view-btn">
                     <h2>Eastwood ATM</h2>
+                    <div class="date"></div>
                     <div class="left">
                         <p id="menu-text">What would you like to do?</p>
                     </div>
@@ -21,6 +22,7 @@
 
                 <div class="view" id="create-view">
                     <h2>Create Account</h2>
+                    <div class="date"></div>
                     <div class="left">
                         <p>Please enter the name of the account holder and the desired PIN. <em>(PIN cannot start with a 0)</em></p>
                         <label for="create-name">Name: </label>
@@ -36,6 +38,7 @@
                 </div>
                 <div class="view" id="access-view">
                     <h2>Access Account</h2>
+                    <div class="date"></div>
                     <div class="left">
                         <p>Please enter the name of the account holder and the associated PIN.</p>
                         <label for="access-name">Name: </label>
@@ -51,20 +54,23 @@
                 </div>
                 <div class="view" id="auth-view">
                     <h2>Your Account</h2>
+                    <div class="date"></div>
                     <div class="left">
                         <p id="auth-welcome"></p>
                         <label for="auth-amount">Amount to withdraw/deposit: </label>
-                        <input type="text" id="auth-amount">
+                        <input type="number" id="auth-amount" min="20" max="200" step="20">
                         <p id="auth-output"></p>
-                        <h3>Change PIN</h3>
-                        <label for="auth-pin">New PIN: </label>
-                        <input type="text" id="change-pin">
+                        <h3>Change Account Info</h3>
+                        <label for="change-text">New Name/PIN: </label>
+                        <input type="text" id="change-text">
+
                     </div>
                     <div class="right">
                         <input type="button" id="auth-withdraw" value="Withdraw">
                         <input type="button" id="auth-deposit" value="Deposit">
                         <input type="button" id="delete-account" value="Delete Account">
                         <input type="button" id="change-submit" value="Change PIN">
+                        <input type="button" id="name-submit" value="Change Name">
                         <input type="button" class="return-button" value="Main Menu">
                     </div>
                 </div>
