@@ -34,8 +34,8 @@ class Account{
 }
 
 //since JSON.parse/stringify strips function properties, add back function properties as expressions
-for (let index in accounts){
-    accounts[index].deposit = function(amount){
+function addFunctions(acct){
+    acct.deposit = function(amount){
         if (amount % 20 !== 0){
             return 'Deposit amount must be increment of 20.';
         }
@@ -43,9 +43,9 @@ for (let index in accounts){
             return 'Deposit amount cannot exceed $200.';
         }
         this.balance += amount;
-        return 'Thank you for the deposit. Your updated balance is: ' + this.balance;
+        return 'Thank you for the deposit. Your updated balance is: $' + this.balance + '.00';
     };
-    accounts[index].withdraw = function(amount){
+    acct.withdraw = function(amount){
         if (amount % 20 !== 0){
             return 'Withdrawal amount must be increment of 20.';
         }
@@ -56,14 +56,11 @@ for (let index in accounts){
             return 'Withdrawal amount cannot exceed current balance.';
         }
         this.balance -= amount;
-        return 'Thank you for the withdrawal. Your updated balance is: ' + this.balance;
+        return 'Thank you for the withdrawal. Your updated balance is: $' + this.balance + '.00';
     };
-    accounts[index].changeName = function(newName){
-        this.name = newName;
-    };
-    accounts[index].changePin = function(newPin){
-
-    };
+}
+for (let index in accounts){
+    addFunctions(accounts[index]);
 }
 
 function showDelete(){
@@ -112,6 +109,7 @@ document.getElementById('create-submit').addEventListener('click', function(){
     }
     //if doesn't exist, create new local account object
     let account = new Account(name, pin);
+    addFunctions(account);
     //and push object to array
     accounts.push(account);
     //update array in local storage
@@ -119,8 +117,8 @@ document.getElementById('create-submit').addEventListener('click', function(){
     //set currentAccountIndex
     currentAccountIndex = accounts.length - 1;
     document.querySelector('body').className = 'auth';
-    document.getElementById('auth-welcome').innerHTML = 'Welcome, ' + accounts[currentAccountIndex].name + '! Your current balance is: ' + 
-        accounts[currentAccountIndex].balance + '<br>' + 'What would you like to do?';
+    document.getElementById('auth-welcome').innerHTML = 'Welcome, ' + accounts[currentAccountIndex].name + '! Your current balance is: $' + 
+        accounts[currentAccountIndex].balance + '.00<br>' + 'What would you like to do?';
     showDelete();
 });
 
@@ -135,8 +133,8 @@ document.getElementById('access-submit').addEventListener('click', function(){
             //if name and pin match, access account
             currentAccountIndex = index;
             document.querySelector('body').className = 'auth';
-            document.getElementById('auth-welcome').innerHTML = 'Welcome, ' + accounts[currentAccountIndex].name + '! Your current balance is: ' + 
-                accounts[currentAccountIndex].balance + '<br>' + 'What would you like to do?';
+            document.getElementById('auth-welcome').innerHTML = 'Welcome, ' + accounts[currentAccountIndex].name + '! Your current balance is: $' + 
+                accounts[currentAccountIndex].balance + '.00<br>' + 'What would you like to do?';
             showDelete();
             return;
         } else if (accounts[index].name === name && accounts[index].pin !== pin){
@@ -167,7 +165,7 @@ document.getElementById('change-submit').addEventListener('click', function(){
     let newPin = Number(document.getElementById('change-text').value);
     accounts[currentAccountIndex].pin = newPin;
     localStorage["accounts"] = JSON.stringify(accounts);
-    document.getElementById('auth-welcome').innerHTML = 'PIN has been updated. Your current balance is: ' + accounts[currentAccountIndex].balance;
+    document.getElementById('auth-welcome').innerHTML = 'PIN has been updated.';
 });
 
 document.getElementById('delete-account').addEventListener('click', function(){
@@ -186,11 +184,11 @@ document.getElementById('name-submit').addEventListener('click', function(){
             document.getElementById('auth-welcome').innerHTML = 'An account already exists under that name.';
             return;
         }
-        //if name didn't exist, update account with new name
-        accounts[currentAccountIndex].name = newName;
-        //update array in local storage
-        localStorage["accounts"] = JSON.stringify(accounts);
-        //display confirm text
-        document.getElementById('auth-welcome').innerHTML = 'Account name changed to ' + newName;
     }
+    //if name didn't exist, update account with new name
+    accounts[currentAccountIndex].name = newName;
+    //update array in local storage
+    localStorage["accounts"] = JSON.stringify(accounts);
+    //display confirm text
+    document.getElementById('auth-welcome').innerHTML = 'Account name changed to ' + newName;
 })
