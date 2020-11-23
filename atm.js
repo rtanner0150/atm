@@ -55,7 +55,7 @@ function addFunctions(acct){
         if (amount > this.balance){
             return 'Withdrawal amount cannot exceed current balance.';
         }
-        this.balance -= amount;
+        this.balance -= (amount + 3);
         return 'Thank you for the withdrawal. Your updated balance is: $' + this.balance + '.00';
     };
 }
@@ -98,7 +98,20 @@ document.getElementById('create-submit').addEventListener('click', function(){
     //get name from create-name
     let name = document.getElementById('create-name').value;
     //get pin from create-pin
-    let pin = document.getElementById('create-pin').value;
+    let pin = Number(document.getElementById('create-pin').value);
+    //input verification for account name: must not be empty
+    if (name == false){
+        document.getElementById('create-output').innerHTML = 'Name field must not be empty.';
+        return;
+    }
+    //input verification for pin: must be 4 numbers, cannot start with 0
+    if (pin == false){
+        document.getElementById('create-output').innerHTML = 'PIN must be in the form of a 4-digit number.';
+        return;
+    }
+    if (pin.toString().length !== 4){
+        document.getElementById('create-output').innerHTML = 'PIN must be 4 numbers in length.';
+    }
     //check if account already exists under given name
     for (let index in accounts){
         if (accounts[index].name === name){
